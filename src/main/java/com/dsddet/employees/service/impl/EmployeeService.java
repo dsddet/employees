@@ -16,11 +16,22 @@ public class EmployeeService implements IEmployeeService {
 
     public final EmployeeRepository employeeRepository;
 
+    /**
+     * Retrieve an employee record by ID
+     * @param id
+     * @return
+     */
     @Override
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Update an employee record
+     * @param empUpdate
+     * @return
+     * @throws RuntimeException
+     */
     @Override
     public Employee updateEmployee(Employee empUpdate) throws RuntimeException {
         Employee employee=getEmployeeById(empUpdate.getId());
@@ -32,12 +43,16 @@ public class EmployeeService implements IEmployeeService {
         employee.setStartDate(empUpdate.getStartDate());
         employee.setJobTitle(empUpdate.getJobTitle());
 
-
         return employeeRepository.save(employee);
     }
 
+    /**
+     * Delete existing employee record or throw an exception when provided ID cannot be found
+     * @param id
+     */
     @Override
     public void deleteEmployee(Long id) {
+
         try {
             employeeRepository.deleteById(id);
         } catch (Exception ex) {
@@ -45,10 +60,16 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
+    /**
+     * Add an employee record
+     * @param employee
+     * @return
+     * @throws RuntimeException
+     */
     @Override
     public Employee saveEmployee(Employee employee) throws RuntimeException {
         if(employee==null){
-            throw new BadRequestException("Employee details cannot be empty");
+            throw new BadRequestException("Missing employee details");
         }
         try {
             return employeeRepository.save(employee);
