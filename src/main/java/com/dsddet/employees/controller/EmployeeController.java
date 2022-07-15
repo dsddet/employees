@@ -27,7 +27,8 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        log.info("Received request to save employee with details  ::: %s".formatted(employee));
+        return new ResponseEntity<>(employeeService.saveEmployee(employee), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

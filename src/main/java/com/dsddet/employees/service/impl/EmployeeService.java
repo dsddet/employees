@@ -32,6 +32,6 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public Employee saveEmployee(Employee employee) {
-        return null;
+        return employeeRepository.save(employee);
     }
 }
