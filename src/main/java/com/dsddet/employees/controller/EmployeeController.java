@@ -1,10 +1,10 @@
 package com.dsddet.employees.controller;
 
 import com.dsddet.employees.domain.Employee;
-import com.dsddet.employees.exception.BadRequestException;
 import com.dsddet.employees.service.IEmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employee")
-@RequiredArgsConstructor
 @Slf4j
 public class EmployeeController {
 
-    public final IEmployeeService employeeService;
+    @Autowired
+    private IEmployeeService employeeService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {

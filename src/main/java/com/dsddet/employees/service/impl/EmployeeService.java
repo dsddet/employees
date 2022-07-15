@@ -51,7 +51,7 @@ public class EmployeeService implements IEmployeeService {
      * @param id
      */
     @Override
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(Long id) throws EmployeeNotFoundException {
 
         try {
             employeeRepository.deleteById(id);
