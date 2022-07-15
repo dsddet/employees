@@ -1,6 +1,7 @@
 package com.dsddet.employees.service.impl;
 
 import com.dsddet.employees.domain.Employee;
+import com.dsddet.employees.exception.BadRequestException;
 import com.dsddet.employees.exception.EmployeeNotFoundException;
 import com.dsddet.employees.repository.EmployeeRepository;
 import com.dsddet.employees.service.IEmployeeService;
@@ -21,27 +22,39 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public Employee updateEmployee(Employee employee) {
-        return null;
+    public Employee updateEmployee(Employee empUpdate) throws RuntimeException {
+        Employee employee=getEmployeeById(empUpdate.getId());
+
+        employee.setDepartment(empUpdate.getDepartment());
+        employee.setEmail(empUpdate.getEmail());
+        employee.setFirstName(empUpdate.getFirstName());
+        employee.setLastName(empUpdate.getLastName());
+        employee.setStartDate(empUpdate.getStartDate());
+        employee.setJobTitle(empUpdate.getJobTitle());
+
+
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public void deleteEmployee(Long id) throws EmployeeNotFoundException {
+    public void deleteEmployee(Long id) {
         try {
             employeeRepository.deleteById(id);
         } catch (Exception ex) {
-            log.error("Employee with id {} does not exist", id);
             throw new EmployeeNotFoundException("Employee with id %d does not exist".formatted(id));
         }
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) throws RuntimeException {
+        if(employee==null){
+            throw new BadRequestException("Employee details cannot be empty");
+        }
         try {
             return employeeRepository.save(employee);
         } catch (Exception ex) {
-            log.error("Error ::: {}", ex);
+            throw new RuntimeException("Error while saving employee  ::: %s".formatted(ex.getMessage()));
         }
-        return null;
+
     }
 }
