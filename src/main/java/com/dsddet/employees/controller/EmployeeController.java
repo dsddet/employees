@@ -21,7 +21,8 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
         log.info("Retrieving employee with ID ::: %d".formatted(id));
-        return new ResponseEntity(employeeService.getEmployeeById(id), HttpStatus.OK);
+        Employee emp = employeeService.getEmployeeById(id);
+        return new ResponseEntity(emp, emp == null ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
 
     @PostMapping

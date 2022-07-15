@@ -18,7 +18,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee with %d not found".formatted(id)));
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @Override
