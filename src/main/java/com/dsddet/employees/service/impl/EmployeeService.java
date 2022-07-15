@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -67,7 +71,7 @@ public class EmployeeService implements IEmployeeService {
      * @throws RuntimeException
      */
     @Override
-    public Employee saveEmployee(Employee employee) throws RuntimeException {
+    public Employee saveEmployee(Employee employee) throws BadRequestException {
         if(employee==null){
             throw new BadRequestException("Missing employee details");
         }
@@ -78,4 +82,18 @@ public class EmployeeService implements IEmployeeService {
         }
 
     }
+
+    @Override
+    public Set<Employee> getEmployeesById(Set<Long> id) throws BadRequestException{
+
+        if(id.isEmpty()){
+            throw new BadRequestException("Empty list of employee IDs not supported");
+        }
+
+        Set<Employee> result= new HashSet<>();
+        this.employeeRepository.findAllById(id).forEach(result::add);
+        return result;
+    }
+
+
 }

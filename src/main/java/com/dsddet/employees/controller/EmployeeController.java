@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/employee")
 @Slf4j
@@ -42,6 +44,13 @@ public class EmployeeController {
         log.info("Deleting employee with ID  ::: %s".formatted(id));
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/id")
+    public ResponseEntity<Set<Employee>> getManyEmployeesByID(@RequestParam("list") Set<Long> ids){
+        log.info("Getting employee IDs  ::: %s".formatted(ids.toString()));
+        return new ResponseEntity<>(employeeService.getEmployeesById(ids),HttpStatus.OK);
+
     }
 
 
