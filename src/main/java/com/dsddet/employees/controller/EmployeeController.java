@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/employee")
 @Slf4j
+@RequiredArgsConstructor
 public class EmployeeController {
 
-    @Autowired
-    private IEmployeeService employeeService;
+    private final IEmployeeService employeeService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
