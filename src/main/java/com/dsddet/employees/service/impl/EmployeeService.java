@@ -26,12 +26,22 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public void deleteEmployee(Long id) {
-
+    public void deleteEmployee(Long id) throws EmployeeNotFoundException {
+        try {
+            employeeRepository.deleteById(id);
+        } catch (Exception ex) {
+            log.error("Employee with id {} does not exist", id);
+            throw new EmployeeNotFoundException("Employee with id %d does not exist".formatted(id));
+        }
     }
 
     @Override
     public Employee saveEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+        try {
+            return employeeRepository.save(employee);
+        } catch (Exception ex) {
+            log.error("Error ::: {}", ex);
+        }
+        return null;
     }
 }

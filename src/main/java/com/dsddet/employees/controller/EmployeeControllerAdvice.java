@@ -15,15 +15,14 @@ public class EmployeeControllerAdvice {
     // 409
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> throwemployeeNotFoundException(){
-        log.error("User not found");
+        log.error("Employee not found");
 
-        return new ResponseEntity<>("User not found",HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Employee not found",HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> thowGeneralException(){
-        log.error("User not found");
-
+        log.error("Oops!! - Something bad happened");
         return new ResponseEntity<>("Oops!! - Something bad happened",HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
