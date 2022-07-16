@@ -1,26 +1,20 @@
-name: Docker-GCP
+name: Deploy the application to Google Cloud Run
 on:
   push:
     branches:
-      - master
+      - 'master'
+
 jobs:
-  build:
+  build-and-push-to-gcr:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup gcloud
-      uses: GoogleCloudPlatform/github-actions/setup-gcloud@main
-      with:
-        version: '290.0.1'
-        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }} 
-        project_id: ${{ secrets.GCP_PROJECT_ID }} 
-
-    - name: Configure docker for GCP
-      run: gcloud auth configure-docker
-
-    - name: Build docker image
-      run:  docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.IMAGE_NAME }}:latest . 
-
-    - name: Push to Google Container Registry
-      run:  docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.IMAGE_NAME }}:latest 
+      - uses: actions/checkout@v2
+      - uses: RafikFarhad/push-to-gcr-github-action@v4.1
+        with:
+          gcloud_service_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          registry: gcr.io
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          image_name: ${{ secrets.IMAGE_NAME }}
+          image_tag: latest
+          # dockerfile: ./docker/Dockerfile.prod
+          # context: ./docker
