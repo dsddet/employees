@@ -49,8 +49,8 @@ public class EmployeeController {
     @GetMapping("/id")
     public ResponseEntity<Set<Employee>> getManyEmployeesByID(@RequestParam("list") Set<Long> ids){
         log.info("Getting employee IDs  ::: %s".formatted(ids.toString()));
-        return new ResponseEntity<>(employeeService.getEmployeesById(ids),HttpStatus.OK);
-
+        Set<Employee> response = employeeService.getEmployeesById(ids);
+        return new ResponseEntity<>(response,response.isEmpty()?HttpStatus.NO_CONTENT:HttpStatus.OK);
     }
 
 
