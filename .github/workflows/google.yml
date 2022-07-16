@@ -24,5 +24,10 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           image_name: ${{ secrets.IMAGE_NAME }}
           image_tag: latest
-          # dockerfile: ./docker/Dockerfile.prod
-          # context: ./docker
+      - id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ secrets.SERVICE_ACC }}
+          image: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.IMAGE_NAME }}:latest
+      - name: Use output
+        run: curl "${{ steps.deploy.outputs.url }}"
