@@ -93,7 +93,7 @@ public class EmployeeControllerTest{
     public void test_update_existing_employee() throws Exception{
         given(employeeService.updateEmployee(this.employee)).willReturn(this.employee);
 
-        mockMvc.perform(patch("/employee/{id}",1l).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(patch("/employee").contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsBytes(this.employee)))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -106,7 +106,7 @@ public class EmployeeControllerTest{
     public void test_update_unknown_employee() throws Exception{
         given(employeeService.updateEmployee(any(Employee.class))).willThrow(new EmployeeNotFoundException("Inexistent user"));
 
-        mockMvc.perform(patch("/employee/{id}",1l).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(patch("/employee",1l).contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsBytes(this.employee)))
                 .andDo(print())
                 .andExpect(status().isNotFound())
